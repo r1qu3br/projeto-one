@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decodificador de Texto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Decodificador de Texto</div>
+        <div class="input-area">
+            <div class="text-input">
+                <textarea id="input" placeholder="Digite um texto que você deseja criptografar ou descriptografar"></textarea>
+                <p class="info">Apenas letras minúsculas e sem acento são aceitas.</p>
+                <div class="buttons">
+                    <button class="encrypt" onclick="criptografar()">Criptografar</button>
+                    <button class="decrypt" onclick="descriptografar()">Descriptografar</button>
+                </div>
+            </div>
+            <div class="output-area">
+                <div id="result" style="text-align: center;">
+                    <img src="imagens/lupabox.svg" alt="Imagem da Lupa da Alura">
+                    <p>Nenhuma mensagem encontrada.</p>
+                </div>
+                <button class="copy" onclick="copiarTexto()" style="margin: 20px auto; display: block;">Copiar</button>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>Desenvolvido por Henrique Camargo</p>
+        <p>Contato: <a href="mailto:r1qu3.camargo@gmail.com">r1qu3.camargo@gmail.com</a></p>
+        <p>&copy; 2024. Todos os direitos reservados</p>
+    </footer>
+    <script>
+        function criptografar() {
+            const input = document.getElementById('input').value.toLowerCase();
+            if (!isValidInput(input)) {
+                alert('São aceitas apenas letras minúsculas e sem acento.');
+                return;
+            }
+            const criptografado = input
+                .replace(/e/g, 'enter')
+                .replace(/i/g, 'imes')
+                .replace(/a/g, 'ai')
+                .replace(/o/g, 'ober')
+                .replace(/u/g, 'ufat');
+            exibirResultado(criptografado);
+        }
+
+        function descriptografar() {
+            const input = document.getElementById('input').value.toLowerCase();
+            if (!isValidInput(input)) {
+                alert('Por favor, use apenas letras minúsculas sem acento.');
+                return;
+            }
+            const descriptografado = input
+                .replace(/enter/g, 'e')
+                .replace(/imes/g, 'i')
+                .replace(/ai/g, 'a')
+                .replace(/ober/g, 'o')
+                .replace(/ufat/g, 'u');
+            exibirResultado(descriptografado);
+        }
+
+        function isValidInput(input) {
+            return /^[a-z\s]*$/.test(input);
+        }
+
+        function exibirResultado(texto) {
+            document.getElementById('result').innerHTML = `<p>${texto}</p>`;
+        }
+
+        function copiarTexto() {
+            const resultado = document.getElementById('result').innerText;
+            navigator.clipboard.writeText(resultado).then(() => {
+                alert('Texto copiado para a área de transferência!');
+            });
+        }
+
+        document.getElementById('input').addEventListener('input', function(e) {
+            this.value = this.value.toLowerCase().replace(/[^a-z\s]/g, '');
+        });
+    </script>
+</body>
+</html>
